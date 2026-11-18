@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<style>
+
+    .static{
+        position: static;
+    }
+
+    .relative{
+        position: relative;
+        height: 250px;
+        border: 1px solid #000;
+    }
+    .absolute{
+        position: absolute;
+        border: 1px solid #000;
+        top: 50%;
+        right: 50%;
+    }
+    .fixed{
+        position: fixed;
+        border: 1px solid #000;
+        bottom: 0%;
+       
+    }
+
+     .float{
+        float: left;
+       border: 1px solid #000;
+       height: 100px;
+       padding: 25px;
+    }
+
+</style>
+
+</head>
+<body>
+<div>
+    <div class="static">
+        im am static
+    </div>
+    <div class="relative">
+        im am relative
+          <dir class="absolute">
+        im absolute
+    </dir>
+    </div>
+
+      <dir class="fixed">
+        im fix
+    </dir>
+
+    <div class="float">
+        im float
+    </div>
+    <div class="float">
+        im float1
+    </div>
+    <div class="float">
+        im float2
+    </div>
+    </div>
+  
+    
+</body>
+</html>

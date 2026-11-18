@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE PIECE Menu - Ramen & Fried Chicken</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, 
+                #ff0000 25%, #ffcccc 25%, #ffcccc 50%, 
+                #ff0000 50%, #ff0000 75%, #ffcccc 75%);
+            background-size: 60px 60px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Checkered pattern overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 30px,
+                rgba(255, 255, 255, 0.3) 30px,
+                rgba(255, 255, 255, 0.3) 60px
+            ),
+            repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 30px,
+                rgba(255, 255, 255, 0.3) 30px,
+                rgba(255, 255, 255, 0.3) 60px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: #ff6b35;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+        .logo img {
+    max-width: 1000%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+        .restaurant-info h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+        }
+
+        .stars {
+            color: #ffa500;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .cart-icon {
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Hours banner */
+        .hours-banner {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+        /* Menu Content */
+        .menu-content {
+            padding: 40px;
+        }
+
+        .menu-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .menu-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 3px 3px 0px #000;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+
+        .menu-subtitle {
+            font-size: 18px;
+            color: white;
+            text-shadow: 1px 1px 0px #000;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .menu-item-header {
+            background: linear-gradient(135deg, #333, #555);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .item-rating {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star {
+            color: #ffa500;
+            font-size: 16px;
+        }
+
+        .menu-item-image {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .price-tag {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: #ff6b35;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Desserts Section */
+        .desserts-section {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .desserts-btn {
+            background: #333;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .desserts-btn:hover {
+            background: #555;
+            transform: translateY(-2px);
+        }
+
+        /* Karaage specific styling */
+        .karaage-bg {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect fill="%23d4a574" width="400" height="250"/><circle fill="%238B4513" cx="100" cy="80" r="25"/><circle fill="%23A0522D" cx="150" cy="120" r="20"/><circle fill="%238B4513" cx="200" cy="100" r="22"/><circle fill="%23A0522D" cx="250" cy="150" r="18"/><circle fill="%238B4513" cx="300" cy="90" r="24"/></svg>');
+        }
+
+        /* Pork Bites styling */
+        .pork-bg {
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect fill="%23f4e4bc" width="400" height="250"/><ellipse fill="%23CD853F" cx="120" cy="100" rx="30" ry="15"/><ellipse fill="%23D2691E" cx="180" cy="140" rx="25" ry="12"/><ellipse fill="%23CD853F" cx="240" cy="80" rx="28" ry="14"/><ellipse fill="%23D2691E" cx="300" cy="160" rx="22" ry="11"/></svg>');
+        }
+
+        /* Combo styling */
+        .combo-bg {
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect fill="%232c2c2c" width="400" height="250"/><circle fill="%23FFD700" cx="200" cy="60" r="20"/><rect fill="%238B4513" x="100" y="120" width="200" height="80" rx="10"/><circle fill="%23A0522D" cx="150" cy="200" r="15"/><circle fill="%23CD853F" cx="250" cy="190" r="18"/></svg>');
+        }
+
+        /* Shrimp Rice styling */
+        .shrimp-bg {
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect fill="%23f0f8e8" width="400" height="250"/><ellipse fill="%23FF6347" cx="150" cy="100" rx="40" ry="15" transform="rotate(30 150 100)"/><ellipse fill="%23FF4500" cx="250" cy="140" rx="35" ry="12" transform="rotate(-20 250 140)"/><circle fill="%2332CD32" cx="100" cy="180" r="8"/><circle fill="%23228B22" cx="300" cy="80" r="6"/></svg>');
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .nav-menu {
+                gap: 20px;
+            }
+
+            .menu-content {
+                padding: 20px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .menu-title {
+                font-size: 36px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo"><img src="logo.png" alt=""></div>
+                <div class="restaurant-info">
+                    <h1>ONE PIECE Ramen & Fried Chicken</h1>
+                    <div class="rating">
+                        <span class="stars">⭐ 4.9</span>
+                        <span>(450+ reviews)</span>
+                    </div>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <span class="cart-icon">🛒</span>
+                <a href="Desktop1.html">HOME</a>
+                <a href="desktop2.html">MENU</a>
+                <a href="about.html">ABOUT</a>
+                <a href="contact.html">CONTACT</a>
+            </nav>
+        </header>
+
+        <!-- Hours Banner -->
+        <div class="hours-banner">
+            🕐 Mon-Thu: 11am-9pm • Fri-Sat: 11am-10pm
+        </div>
+
+        <!-- Menu Content -->
+        <main class="menu-content">
+            <div class="menu-header">
+                <h2 class="menu-title">OUR MENU</h2>
+                <p class="menu-subtitle">
+                    Carefully crafted dishes that bring together the best of Japanese and international flavors.
+                </p>
+            </div>
+
+            <div class="menu-grid">
+                <!-- Karaage -->
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <span class="item-name">Halo-Halo</span>
+                        <div class="item-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-image">
+                         <a href="halohalo.html">
+                    <img src="HaloHalo.png" alt="Karaage" style="width:100%; height:250px; object-fit:cover;">
+                        </a>
+                        <div class="price-tag">₱30</div>
+                    </div>
+                </div>
+
+                <!-- Pork Bites -->
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <span class="item-name">Mais-con-Heilo</span>
+                        <div class="item-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-image">
+
+                        <a href="porkbites.html">
+                            <img src="mais.png"  alt="Karaage" style="width:100%; height:250px; object-fit:cover;">
+                        </a>
+                        <div class="price-tag">₱35</div>
+                    </div>
+                </div>
+
+                <!-- Yakiniku + Chicken Karaage Combo -->
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <span class="item-name">Graham Bar</span>
+                        <div class="item-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-image">
+                         <a href="yakiniku.html">
+                            <img src="grahamBar.png"  alt="Karaage" style="width:100%; height:250px; object-fit:cover;">
+                        </a>
+                        <div class="price-tag">₱30</div>
+                    </div>
+                </div>
+
+                <!-- Cajun Shrimp Rice -->
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <span class="item-name">Siopao</span>
+                        <div class="item-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-image">
+                         <a href="cajun.html">
+                            <img src="siopao.png"  alt="Karaage" style="width:100%; height:250px; object-fit:cover;">
+                        </a>
+                        <div class="price-tag">₱45</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Desserts Section -->
+            <div class="desserts-section">
+                <a href="desktop2.html">
+                    <button class="desserts-btn">Main Food</button>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

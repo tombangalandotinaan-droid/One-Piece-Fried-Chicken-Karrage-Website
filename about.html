@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - ONE PIECE Ramen & Fried Chicken</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, 
+                #ff0000 25%, #ffcccc 25%, #ffcccc 50%, 
+                #ff0000 50%, #ff0000 75%, #ffcccc 75%);
+            background-size: 60px 60px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Checkered pattern overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 30px,
+                rgba(255, 255, 255, 0.3) 30px,
+                rgba(255, 255, 255, 0.3) 60px
+            ),
+            repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 30px,
+                rgba(255, 255, 255, 0.3) 30px,
+                rgba(255, 255, 255, 0.3) 60px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: #ff6b35;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            max-width: 1000%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .restaurant-info h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+        }
+
+        .stars {
+            color: #ffa500;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .cart-icon {
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Hours banner */
+        .hours-banner {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+        /* About Content */
+        .about-content {
+            padding: 60px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .about-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 3px 3px 0px #000;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+
+        .about-subtitle {
+            font-size: 20px;
+            color: white;
+            text-shadow: 1px 1px 0px #000;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Story Section */
+        .story-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .story-section h2 {
+            font-size: 32px;
+            color: #ff6b35;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .story-section p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* Values Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .value-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .value-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .value-card h3 {
+            font-size: 24px;
+            color: #ff6b35;
+            margin-bottom: 15px;
+        }
+
+        .value-card p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .team-section h2 {
+            font-size: 32px;
+            color: #ff6b35;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .team-member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b35, #ffb347);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .team-member h4 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .team-member p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Location Section */
+        .location-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .location-section h2 {
+            font-size: 32px;
+            color: #ff6b35;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .location-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .info-icon {
+            font-size: 30px;
+            flex-shrink: 0;
+        }
+
+        .info-text h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .info-text p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .nav-menu {
+                gap: 20px;
+            }
+
+            .about-content {
+                padding: 40px 20px;
+            }
+
+            .about-title {
+                font-size: 36px;
+                letter-spacing: 2px;
+            }
+
+            .story-section,
+            .team-section,
+            .location-section {
+                padding: 25px;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo"><img src="logo.png" alt=""></div>
+                <div class="restaurant-info">
+                    <h1>ONE PIECE Ramen & Fried Chicken</h1>
+                    <div class="rating">
+                        <span class="stars">⭐ 4.9</span>
+                        <span>(450+ reviews)</span>
+                    </div>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <span class="cart-icon">🛒</span>
+                <a href="Desktop1.html">HOME</a>
+                <a href="desktop2.html">MENU</a>
+                <a href="about.html">ABOUT</a>
+                <a href="contact.html">CONTACT</a>
+            </nav>
+        </header>
+
+        <!-- Hours Banner -->
+        <div class="hours-banner">
+            🕐 Mon-Thu: 11am-9pm • Fri-Sat: 11am-10pm
+        </div>
+
+        <!-- About Content -->
+        <main class="about-content">
+            <div class="about-header">
+                <h2 class="about-title">ABOUT US</h2>
+                <p class="about-subtitle">
+                    Where tradition meets innovation in every bite
+                </p>
+            </div>
+
+            <!-- Our Story -->
+            <section class="story-section">
+                <h2>🍜 Our Story</h2>
+                <p>
+                    ONE PIECE Chicken Kobayashi was born from a passion for authentic Japanese cuisine and a dream to bring the bold, savory flavors of Japan to our local community. What started as a small kitchen experiment has grown into a beloved destination for food enthusiasts seeking genuine Japanese Karaage and comfort food.
+                </p>
+                <p>
+                    Our name pays homage to the adventurous spirit of exploration and discovery. Like the journey of finding the ultimate treasure, we embarked on a quest to perfect our recipes, combining traditional Japanese cooking techniques with locally-sourced ingredients to create something truly special.
+                </p>
+                <p>
+                    Every dish we serve is crafted with care, using time-honored methods passed down through generations. From our crispy Karaage chicken to our savory Pork Bites and sweet Graham Bars, each item on our menu tells a story of dedication, quality, and love for great food.
+                </p>
+            </section>
+
+            <!-- Our Values -->
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">🔥</div>
+                    <h3>Fresh Daily</h3>
+                    <p>We prepare everything fresh each day using the finest ingredients. No shortcuts, no compromises.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">👨‍🍳</div>
+                    <h3>Authentic Recipes</h3>
+                    <p>Our recipes stay true to traditional Japanese cooking methods, ensuring authentic flavors in every dish.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">❤️</div>
+                    <h3>Made with Love</h3>
+                    <p>Every meal is prepared with passion and attention to detail, because we care about your experience.</p>
+                </div>
+            </div>
+
+            <!-- Our Team -->
+            <section class="team-section">
+                <h2>Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="team-member-photo">👨‍🍳</div>
+                        <h4>Head Chef</h4>
+                        <p>Master of Karaage</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-member-photo">👩‍🍳</div>
+                        <h4>Sous Chef</h4>
+                        <p>Flavor Expert</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-member-photo">🧑‍🍳</div>
+                        <h4>Pastry Chef</h4>
+                        <p>Dessert Specialist</p>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-member-photo">👨‍💼</div>
+                        <h4>Manager</h4>
+                        <p>Guest Relations</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Location & Contact -->
+            <section class="location-section">
+                <h2>Visit Us</h2>
+                <div class="location-info">
+                    <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-text">
+                            <h3>Location</h3>
+                            <p>Dasmariñas, Calabarzon<br>Philippines</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🕐</div>
+                        <div class="info-text">
+                            <h3>Hours</h3>
+                            <p>Mon-Thu: 11am-9pm<br>Fri-Sat: 11am-10pm</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">📞</div>
+                        <div class="info-text">
+                            <h3>Contact</h3>
+                            <p>Phone: Coming Soon<br>Email: info@onepiecechicken.com</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

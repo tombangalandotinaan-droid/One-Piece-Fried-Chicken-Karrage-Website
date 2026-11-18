@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE PIECE Menu - Ramen & Fried Chicken</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, 
+                #ff0000 25%, #ffcccc 25%, #ffcccc 50%, 
+                #ff0000 50%, #ff0000 75%, #ffcccc 75%);
+            background-size: 60px 60px;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Checkered pattern overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 30px,
+                rgba(255, 255, 255, 0.3) 30px,
+                rgba(255, 255, 255, 0.3) 60px
+            ),
+            repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 30px,
+                rgba(255, 255, 255, 0.3) 30px,
+                rgba(255, 255, 255, 0.3) 60px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: #ff6b35;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+        }
+        .logo img {
+    max-width: 1000%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+        .restaurant-info h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+        }
+
+        .stars {
+            color: #ffa500;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .cart-icon {
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Hours banner */
+        .hours-banner {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+        /* Menu Content */
+        .menu-content {
+            padding: 40px;
+        }
+
+        .menu-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .menu-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 3px 3px 0px #000;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+
+        .menu-subtitle {
+            font-size: 18px;
+            color: white;
+            text-shadow: 1px 1px 0px #000;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Detailed Menu Item */
+        .detailed-menu-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .detailed-menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .menu-item-header {
+            background: #f5f5f5;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .item-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .prep-time {
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .menu-item-content {
+            display: flex;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .item-description {
+            flex: 1;
+        }
+
+        .description-text {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            font-size: 16px;
+            color: #333;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .features-list li:before {
+            content: '•';
+            color: #ff6b35;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #ddd;
+            background: #f5f5f5;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: #e5e5e5;
+            border-color: #bbb;
+        }
+
+        .quantity-display {
+            font-size: 24px;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .add-to-cart {
+            background: #333;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #555;
+            transform: translateY(-2px);
+        }
+
+        .item-image {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Simple Menu Grid for other items */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 40px auto 0;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        .simple-item-header {
+            background: linear-gradient(135deg, #333, #555);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .simple-item-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .item-rating {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star {
+            color: #ffa500;
+            font-size: 16px;
+        }
+
+        .menu-item-image {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .menu-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .price-tag {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: #ff6b35;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .nav-menu {
+                gap: 20px;
+            }
+
+            .menu-content {
+                padding: 20px;
+            }
+
+            .menu-item-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .item-controls {
+                justify-content: center;
+            }
+
+            .menu-title {
+                font-size: 36px;
+                letter-spacing: 2px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo"><img src="logo.png" alt=""></div>
+                <div class="restaurant-info">
+                    <h1>ONE PIECE Ramen & Fried Chicken</h1>
+                    <div class="rating">
+                        <span class="stars">⭐ 4.9</span>
+                        <span>(450+ reviews)</span>
+                    </div>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <span class="cart-icon">🛒</span>
+                <a href="Desktop1.html">HOME</a>
+                <a href="desktop2.html">MENU</a>
+                <a href="about.html">ABOUT</a>
+                <a href="contact.html">CONTACT</a>
+            </nav>
+        </header>
+
+        <!-- Hours Banner -->
+        <div class="hours-banner">
+            🕐 Mon-Thu: 11am-9pm • Fri-Sat: 11am-10pm
+        </div>
+
+        <!-- Menu Content -->
+        <main class="menu-content">
+            <div class="menu-header">
+                <h2 class="menu-title">OUR MENU</h2>
+                <p class="menu-subtitle">
+                    Carefully crafted dishes that bring together the best of Japanese and international flavors.
+                </p>
+            </div>
+
+            <!-- Featured Item: Karaage -->
+            <div class="detailed-menu-item">
+                <div class="menu-item-header">
+                    <h3 class="item-title">Siopao</h3>
+                    <div class="prep-time">
+                        ⏱️ Prep time: 3-5 mins
+                    </div>
+                </div>
+                <div class="menu-item-content">
+                    <div class="item-description">
+                        <p class="description-text">
+                            The classic sauce for siopao asado is a flavorful, thickened brown sauce. 
+                        <ul class="features-list">
+                            <li>Pork</li>
+                            <li>Soy sauce</li>
+                            <li>Oyster sauce</li>
+                            <li>Hoisin sauce</li>
+                        </ul>
+                        <div class="item-controls">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
+                                <span class="quantity-display" id="quantity">1</span>
+                                <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                            </div>
+                            <button class="add-to-cart">Add to cart</button>
+                        </div>
+                    </div>
+                    <div class="item-image">
+                        <img src="siopao.png" alt="Karaage" style="width:100%; height:250px; object-fit:cover;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Menu Items -->
+            <div class="menu-grid">
+           
+                <div class="menu-item">
+                    <div class="simple-item-header">
+                        <span class="simple-item-name">Halo Halo</span>
+                        <div class="item-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-image">
+                        <a href="halohalo.html">
+                            <img src="HaloHalo.png" alt="Karaage" style="width:100%; height:250px; object-fit:cover;">
+                        </a>
+                        <div class="price-tag">₱35</div>
+                    </div>
+                </div>
+
+                <!-- Yakiniku Combo -->
+                <div class="menu-item">
+                    <div class="simple-item-header">
+                        <span class="simple-item-name">Mais-con-heilo</span>
+                        <div class="item-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-image">
+
+                        <a href="maisHeilo.html">
+                            <img src="mais.png" alt="Karaage" style="width:100%; height:250px; object-fit:cover;">
+                        </a>
+                        <div class="price-tag">₱30</div>
+                    </div>
+                </div>
+
+                <!-- Cajun Shrimp Rice -->
+                <div class="menu-item">
+                    <div class="simple-item-header">
+                        <span class="simple-item-name">Graham Bar</span>
+                        <div class="item-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                    </div>
+                    <div class="menu-item-image">
+                       <a href="grahamBar.html">
+                        <img src="grahamBar.png" alt="Karaage" style="width:100%; height:250px; object-fit:cover;">
+                       </a>
+                        <div class="price-tag">₱45</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let quantity = 1;
+
+        function increaseQuantity() {
+            quantity++;
+            document.getElementById('quantity').textContent = quantity;
+        }
+
+        function decreaseQuantity() {
+            if (quantity > 1) {
+                quantity--;
+                document.getElementById('quantity').textContent = quantity;
+            }
+        }
+    </script>
+</body>
+</html>
